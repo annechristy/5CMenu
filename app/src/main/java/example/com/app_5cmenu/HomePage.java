@@ -4,14 +4,48 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 
-public class HomePage extends Activity {
+public class HomePage extends Activity implements View.OnClickListener {
+
+    TextView mainTextView;
+    Button firstButton;
+    Button secondButton;
+    Button thirdButton;
+    Button fourthButton;
+    Button fifthButton;
+    Button sixthButton;
+    Button seventhButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        // 1. Access the TextView defined in layout XML
+        // and then set its text
+        mainTextView = (TextView) findViewById(R.id.main_textview);
+        mainTextView.setText("Welcome to the 5C Menu App!");
+
+        // 2. Access the Button(s) defined in layout XML
+        // and listen for it here
+        firstButton = (Button) findViewById(R.id.first_button);
+        firstButton.setOnClickListener(this);
+        secondButton = (Button) findViewById(R.id.second_button);
+        secondButton.setOnClickListener(this);
+        thirdButton = (Button) findViewById(R.id.third_button);
+        thirdButton.setOnClickListener(this);
+        fourthButton = (Button) findViewById(R.id.fourth_button);
+        fourthButton.setOnClickListener(this);
+        fifthButton = (Button) findViewById(R.id.fifth_button);
+        fifthButton.setOnClickListener(this);
+        sixthButton = (Button) findViewById(R.id.sixth_button);
+        sixthButton.setOnClickListener(this);
+        seventhButton = (Button) findViewById(R.id.seventh_button);
+        seventhButton.setOnClickListener(this);
     }
 
 
@@ -32,5 +66,11 @@ public class HomePage extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        // Test the Button
+        mainTextView.setText("Button pressed!");
     }
 }
