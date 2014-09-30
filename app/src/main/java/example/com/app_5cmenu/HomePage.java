@@ -1,6 +1,7 @@
 package example.com.app_5cmenu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,8 @@ public class HomePage extends Activity implements View.OnClickListener {
     Button fifthButton;
     Button sixthButton;
     Button seventhButton;
+
+    Intent goToHochMenu_Intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +75,7 @@ public class HomePage extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         // Test the Button
         mainTextView.setText("Button pressed!");
+        goToHochMenu_Intent = new Intent(this, MenuPage.class);
+        startActivity(goToHochMenu_Intent);
     }
 }
