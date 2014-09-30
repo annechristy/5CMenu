@@ -3,6 +3,7 @@
 
     <string name="app_name">App_5CMenu</string>
     <string name="textview">Hello world! Testing, this is Hannah</string>
+    <string name="hint">Search for food items here</string>
     <string name="action_settings">Settings</string>
     <string name="button1">Mudd</string>
     <string name="button2">Scripps</string>

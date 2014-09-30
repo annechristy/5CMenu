@@ -1,66 +1,75 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1.0">
 
 
     <TextView
         android:id="@+id/main_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/textview"/>
+
+    <!-- Displays keyboard when touched -->
+    <EditText
+        android:id="@+id/main_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="@string/hint" />
 
     <!-- Set OnClickListener to trigger results when pressed -->
     <Button
         android:id="@+id/first_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
+        android:layout_marginTop="10dp"
         android:text="@string/button1" />
     <Button
         android:id="@+id/second_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button2" />
+
     <Button
         android:id="@+id/third_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button3" />
     <Button
         android:id="@+id/fourth_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button4" />
     <Button
         android:id="@+id/fifth_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button5" />
     <Button
         android:id="@+id/sixth_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button6" />
     <Button
         android:id="@+id/seventh_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight=".14"
         android:text="@string/button7" />
 
 </LinearLayout>
