@@ -18,239 +18,74 @@ import java.util.TimeZone;
 
 
 public class MenuPage extends Activity {
+    // Current hall and meal objects.
+    DiningHall selectedHall;
+    Meal currentMeal;
 
-
+    // TextViews and ListViews used to dynamically update screens.
     TextView DiningHallTextView;
     TextView MealTextView;
     TextView MealTimeTextView;
-    ListView hochMealListView;
+    ListView MealListView;
 
-    String diningHallData;
+    // This allows for conversion from a String[] to a scrolling list.
+    ArrayAdapter<String> adapter;
+
+    // Data from the home page button click.
+    String hallDataStr;
     int hallDataNum;
 
-    GregorianCalendar cal;
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
+   // Figure out how to change this more dynamically!!! maybe with a vector?
+    String[] menuItemsArray;
 
-    int numMenuItems = 15;
-    String[] menuItemsArray = new String[numMenuItems];
-    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_page);
 
-
-        // Set the time
-        this.setTime();
-
-        System.out.println("year: " + year + " day: " + day + " hour: " + hour + ":" + minute); // for testing
-
-
-
-        // Set the food in the ListView
-        this.setMenuItemsArray();
-
-        // Use these to dynamically change text views
-        DiningHallTextView = (TextView) findViewById(R.id.hall_textview);
-        diningHallData = getIntent().getStringExtra("hall_data");
-        DiningHallTextView.setText(diningHallData);
-
+        // Get information from the home page.
+        hallDataStr = getIntent().getStringExtra("hall_data");
         hallDataNum = getIntent().getIntExtra("hall_data_num", 0);
 
+        // Make the DiningHall object.
+        selectedHall = new DiningHall(hallDataStr);
+
+        // Make the current Meal object.
+        currentMeal = new Meal(hallDataStr);
+
+        // Set the food in the ListView (the setMenuItemsArray() method should use the
+        // current meal to decide what to load.
+        setMenuItemsArray();
+
+        // Get the TextViews. Use these to dynamically change text views.
+        DiningHallTextView = (TextView) findViewById(R.id.hall_textview);
         MealTextView = (TextView) findViewById(R.id.meal_textview);
-        MealTextView.setText(this.getMeal(day, hour, minute, hallDataNum));
-
         MealTimeTextView = (TextView) findViewById(R.id.meal_time_textview);
-        MealTimeTextView.setText(getMealTimeString(day, hour, minute, hallDataNum));
 
+       // Set the TextViews.
+        DiningHallTextView.setText(hallDataStr);
+        MealTextView.setText(currentMeal.getMealType());
+        System.out.println("MealType: " + currentMeal.getMealType());
+        MealTimeTextView.setText(currentMeal.getMealtime());
+        System.out.println("MealTime: " + currentMeal.getMealtime());
 
-        // initialize the adapter
+        // Get the ListView.
+        MealListView= (ListView) findViewById(R.id.meal_items_listview);
+        System.out.println("MenuItems: " + menuItemsArray);
+
+        // Initialize the adapter. Put menuItemsArray into the ListView.
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItemsArray);
-        hochMealListView= (ListView) findViewById(R.id.hoch_breakfast_listview);
-        hochMealListView.setAdapter(adapter);
+        MealListView.setAdapter(adapter);
 
     }
 
-    public void setTime() {
-        cal = (GregorianCalendar) Calendar.getInstance();
-        year = cal.get(Calendar.YEAR);
-        month = cal.get(Calendar.MONTH);
-        day = cal.get(Calendar.DAY_OF_WEEK);
-        hour = cal.get(Calendar.HOUR_OF_DAY);
-        minute = cal.get(Calendar.MINUTE);
-    }
-
-    public String getHochMeal(int d, int h, int m) {
-        // If it is the weekend (should eventually account for holidays too).
-        if(d == 7 || d == 1) {
-            if(h < 12 || (h ==12 && m < 45)){
-                return "Brunch";
-            } else {
-                return "Dinner";
-            }
-        }
-        // On a weekday
-        else {
-
-            if(h < 9 || (h == 9 && m < 30)) {
-                return "Breakfast";
-            }
-            else if (h < 13 ) {
-                return "Lunch";
-            } else {
-                return "Dinner";
-                // Right now it defaults to the previous dinner, and doesn't wrap to the
-                // next day's breakfast. What do we want to do?
-            }
-        }
-    }
-
-    public static String getScrippsMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-    public String getCmcMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-    public String getPitzerMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-    public String getFrankMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-    public String getFraryMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-    public String getOldenborgMeal(int d, int h, int m) {
-        return "implement me!";
-    }
-
-
-
-    // Write some unit tests for this!!!
-    public String getMeal(int d, int h, int m, int hallNumber) {
-
-        switch (hallNumber) {
-            case 1:  // the hoch
-                return getHochMeal(d, h, m);
-            case 2:  // scripps
-                return getScrippsMeal(d,h,m);
-            case 3:  // cmc
-                return getCmcMeal(d,h,m);
-            case 4:  // pitzer
-                return getPitzerMeal(d,h,m);
-            case 5:  // frank
-                return getFrankMeal(d,h,m);
-            case 6:  // frary
-                return getFraryMeal(d,h,m);
-            case 7:  // oldenborg
-                return getOldenborgMeal(d,h,m);
-
-        }
-
-        // I need more information about when the halls are open....
-
-        // If it is the weekend (should eventually account for holidays too.
-        /*
-        if(d == 7 || d == 1) {
-
-            if(hallNumber == 1) {
-                if(h < 12 || (h ==12 && m < 45)){
-                    return "Brunch";
-                } else {
-                    return "Dinner";
-                }
-            } else {
-                return "NOT THE HOCH";
-            }
-        }
-        // On a weekday
-        else {
-            if(hallNumber == 1) {
-                if(h < 9 || (h == 9 && m < 30)) {
-                    return "Breakfast";
-                }
-                else if (h < 13 ) {
-                    return "Lunch";
-                } else {
-                    return "Dinner";
-                    // Right now it defaults to the previous dinner, and doesn't wrap to the
-                    // next day's breakfast. What do we want to do?
-                }
-            } else {
-                return "NOT THE HOCH";
-            }
-        }*/
-        return "nope";
-    }
-
-
-    // Write some unit tests for this!!!
-    public String getMealTimeString(int d, int h, int m, int hallNumber) {
-        // I need more information about when the halls are open....
-
-        // If it is the weekend (should eventually account for holidays too.
-        if(d == 7 || d == 1) {
-            if(hallNumber == 1) {
-                if(h < 12 || (h ==12 && m < 45)){
-                    return "10:30 - 12:45";
-                } else {
-                    return "5:00 - 7:00";
-                }
-            } else {
-                return "NOT THE HOCH";
-            }
-        }
-        // On a weekday
-        else {
-            if(hallNumber == 1) {
-                if(h < 9 || (h == 9 && m < 30)) {
-                    return "7:30 - 9:30";
-                }
-                else if (h < 13 ) {
-                    return "11:15 - 1:00";
-                } else {
-                    return "5:00 - 7:00";
-                    // Right now it defaults to the previous dinner, and doesn't wrap to the
-                    // next day's breakfast. What do we want to do?
-                }
-            } else {
-                return "NOT THE HOCH";
-            }
-        }
-
-    }
-
-
+    /*
+     * Fill the Menu Array with all of the food options on the Menu.
+     * This is what will appear in the scrolling list view on the menu page.
+     */
     public void setMenuItemsArray() {
-        // Once I know the format of my data, I should set it here more dynamically.
-
-        // Set the menu items in the array. Hard-coded for now, until I get the hang of this.
-        menuItemsArray[0] = "pickles";
-        menuItemsArray[1] = "pasta bar";
-        menuItemsArray[2] = "oatmeal";
-        menuItemsArray[3] = "curry";
-        menuItemsArray[4] = "ice cream";
-        menuItemsArray[5] = "bread";
-        menuItemsArray[6] = "apples";
-        menuItemsArray[7] = "pizza";
-        menuItemsArray[8] = "turnips";
-        menuItemsArray[9] = "lima beans";
-        menuItemsArray[10] = "dragon fruit";
-        menuItemsArray[11] = "rice pudding";
-        menuItemsArray[12] = "sushi";
-        menuItemsArray[13] = "bacon";
-        menuItemsArray[14] = "lettuce";
-
+       menuItemsArray = selectedHall.getCurrentMenu();
     }
 
 

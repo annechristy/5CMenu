@@ -73,7 +73,6 @@ public class HomePage extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        // Test the Button
 
         switch(view.getId())
         {
@@ -128,7 +127,6 @@ public class HomePage extends Activity implements View.OnClickListener {
                 break;
 
         }
-
 
         /*
         mainTextView.setText("Button pressed!");
