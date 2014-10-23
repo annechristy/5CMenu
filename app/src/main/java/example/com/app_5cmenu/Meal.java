@@ -40,7 +40,7 @@ public class Meal {
         // The following is for testing purposes, we really need to
         // input actual data here.
 
-        menuItems = new String[15];
+        menuItems = new String[20];
 
         menuItems[0] = "ice cream";
         menuItems[1] = "candy";
@@ -57,6 +57,11 @@ public class Meal {
         menuItems[12] = "fruit cup";
         menuItems[13] = "peppermint sticks";
         menuItems[14] = "soda";
+        menuItems[15] = "hot chocolate";
+        menuItems[16] = "licorice";
+        menuItems[17] = "shaved ice";
+        menuItems[18] = "peanut butter";
+        menuItems[19] = "brownies";
 
     }
 
