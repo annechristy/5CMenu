@@ -19,7 +19,7 @@ public class MealTypeTest extends InstrumentationTestCase {
 
 
     // getMealType TESTS
-
+/*
     // Mudd
     public void test_getMealType1_Hoch() throws Exception {
         Meal testMeal = new Meal("Hoch-Shanahan", 5, 17, 25);
@@ -361,6 +361,6 @@ public class MealTypeTest extends InstrumentationTestCase {
         String returnedMealType = testMeal.getMealType();
         assertEquals(expectedMealType, returnedMealType);
     }
-
+*/
 }
 
