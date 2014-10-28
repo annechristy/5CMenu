@@ -6,10 +6,10 @@
     <string name="hint">Search for food items here</string>
     <string name="action_settings">Settings</string>
 
-    <string name="button1">Mudd</string>
-    <string name="button2">Scripps</string>
-    <string name="button3">CMC</string>
-    <string name="button4">Pitzer</string>
+    <string name="button1">Hoch-Shanahan</string>
+    <string name="button2">Malott Commons</string>
+    <string name="button3">Collins</string>
+    <string name="button4">McConnell</string>
     <string name="button5">Frank</string>
     <string name="button6">Frary</string>
     <string name="button7">Oldenborg</string>

@@ -2,66 +2,90 @@ package example.com.app_5cmenu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 
 public class MenuPage extends Activity {
+    // Current hall and meal objects.
+    DiningHall selectedHall;
+    Meal currentMeal;
 
-
+    // TextViews and ListViews used to dynamically update screens.
     TextView DiningHallTextView;
+    TextView MealTextView;
+    TextView MealTimeTextView;
+    ListView MealListView;
 
-    ListView hochMealListView;
-
-    int numMenuItems = 15;
-    String[] menuItemsArray = new String[numMenuItems];
+    // This allows for conversion from a String[] to a scrolling list.
     ArrayAdapter<String> adapter;
+
+    // Data from the home page button click.
+    String hallDataStr;
+    int hallDataNum;
+
+   // Figure out how to change this more dynamically!!! maybe with a vector?
+    String[] menuItemsArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_page);
 
-        // Set the food in the ListView
-        this.setMenuItemsArray();
+        // Get information from the home page.
+        hallDataStr = getIntent().getStringExtra("hall_data");
+        hallDataNum = getIntent().getIntExtra("hall_data_num", 0);
 
-        // Use these to dynamically change text views
-        DiningHallTextView = (TextView) findViewById(R.id.hoch_textview);
-        DiningHallTextView.setText("Hoch-Shanahan");
+        // Make the DiningHall object.
+        selectedHall = new DiningHall(hallDataStr);
 
+        // Make the current Meal object.
+        currentMeal = new Meal(hallDataStr);
 
-        // initialize the adapter
+        // Set the food in the ListView (the setMenuItemsArray() method should use the
+        // current meal to decide what to load.
+        setMenuItemsArray();
+
+        // Get the TextViews. Use these to dynamically change text views.
+        DiningHallTextView = (TextView) findViewById(R.id.hall_textview);
+        MealTextView = (TextView) findViewById(R.id.meal_textview);
+        MealTimeTextView = (TextView) findViewById(R.id.meal_time_textview);
+
+       // Set the TextViews.
+        DiningHallTextView.setText(hallDataStr);
+        MealTextView.setText(currentMeal.getMealType());
+        System.out.println("MealType: " + currentMeal.getMealType());
+        MealTimeTextView.setText(currentMeal.getMealtime());
+        System.out.println("MealTime: " + currentMeal.getMealtime());
+
+        // Get the ListView.
+        MealListView= (ListView) findViewById(R.id.meal_items_listview);
+        System.out.println("MenuItems: " + menuItemsArray);
+
+        // Initialize the adapter. Put menuItemsArray into the ListView.
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItemsArray);
-        hochMealListView= (ListView) findViewById(R.id.hoch_breakfast_listview);
-
-
-        hochMealListView.setAdapter(adapter);
+        MealListView.setAdapter(adapter);
 
     }
 
+    /*
+     * Fill the Menu Array with all of the food options on the Menu.
+     * This is what will appear in the scrolling list view on the menu page.
+     */
     public void setMenuItemsArray() {
-        // Once I know the format of my data, I should set it here more dynamically.
-
-        // Set the menu items in the array. Hard-coded for now, until I get the hang of this.
-        menuItemsArray[0] = "pickles";
-        menuItemsArray[1] = "pasta bar";
-        menuItemsArray[2] = "oatmeal";
-        menuItemsArray[3] = "curry";
-        menuItemsArray[4] = "ice cream";
-        menuItemsArray[5] = "bread";
-        menuItemsArray[6] = "apples";
-        menuItemsArray[7] = "pizza";
-        menuItemsArray[8] = "turnips";
-        menuItemsArray[9] = "lima beans";
-        menuItemsArray[10] = "dragon fruit";
-        menuItemsArray[11] = "rice pudding";
-        menuItemsArray[12] = "sushi";
-        menuItemsArray[13] = "bacon";
-        menuItemsArray[14] = "lettuce";
-
+       menuItemsArray = selectedHall.getCurrentMenu();
     }
 
 

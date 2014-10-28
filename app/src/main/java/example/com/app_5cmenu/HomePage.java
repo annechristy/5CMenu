@@ -21,7 +21,7 @@ public class HomePage extends Activity implements View.OnClickListener {
     Button sixthButton;
     Button seventhButton;
 
-    Intent goToHochMenu_Intent;
+    Intent goToMenu_Intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +73,65 @@ public class HomePage extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        // Test the Button
+
+        switch(view.getId())
+        {
+            case R.id.first_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Hoch-Shanahan");
+                goToMenu_Intent.putExtra("hall_data_num", 1);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.second_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Malott Commons");
+                goToMenu_Intent.putExtra("hall_data_num", 2);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.third_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Collins");
+                goToMenu_Intent.putExtra("hall_data_num", 3);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.fourth_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "McConnell");
+                goToMenu_Intent.putExtra("hall_data_num", 4);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.fifth_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Frank");
+                goToMenu_Intent.putExtra("hall_data_num", 5);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.sixth_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Frary");
+                goToMenu_Intent.putExtra("hall_data_num", 6);
+                startActivity(goToMenu_Intent);
+                break;
+            case R.id.seventh_button:
+                // go to the hoch menu
+                goToMenu_Intent = new Intent(this, MenuPage.class);
+                goToMenu_Intent.putExtra("hall_data", "Oldenborg");
+                goToMenu_Intent.putExtra("hall_data_num", 7);
+                startActivity(goToMenu_Intent);
+                break;
+
+        }
+
+        /*
         mainTextView.setText("Button pressed!");
-        goToHochMenu_Intent = new Intent(this, MenuPage.class);
-        startActivity(goToHochMenu_Intent);
+        goToMenu_Intent = new Intent(this, MenuPage.class);
+        startActivity(goToMenu_Intent);
+        */
     }
 }
