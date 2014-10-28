@@ -7,7 +7,7 @@ import example.com.app_5cmenu.Meal;
  * Created by Annie on 10/6/14.
  */
 public class MealGetHallTest extends InstrumentationTestCase {
-
+/*
     // getHall TESTS
     public void test_getHall_Hoch() throws Exception {
         Meal testMeal = new Meal("Hoch-Shanahan", 2, 5, 25);
@@ -57,5 +57,5 @@ public class MealGetHallTest extends InstrumentationTestCase {
         String actualHall = testMeal.getHall();
         assertEquals(expectedHall, actualHall);
     }
-
+*/
 }
