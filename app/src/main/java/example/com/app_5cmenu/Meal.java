@@ -16,12 +16,14 @@ public class Meal {
 
     public Meal(String diningHallName) {
         hallName = diningHallName;
-        setMenuItems();
         mealtime = new MealTime(diningHallName);
+        mealtype = mealtime.currentMealType();
+
+        setMenuItems();
     }
 
-    public Meal(String diningHallName, String mealType, int dayOfWeek) {
-        mealtype = mealType;
+    // I dont think this constructor is ever used.
+    public Meal(String diningHallName,String mealType, int dayOfWeek) {            // public Meal(String diningHallName, String mealType, int dayOfWeek) { < old one
         hallName = diningHallName;
         dow = dayOfWeek;
         setMenuItems();
@@ -34,12 +36,40 @@ public class Meal {
         return menuItems;
     }
 
-    public void setMenuItems() {
+    public void setMenuItems() {   // TURN ALL THIS STUFF INTO CASE STATEMENTS TO
+    // OPTIMIZE PERFORMANCE!!!!!!!!!!!!!! <--this might take some thought and reworking of everything to really optimize
         // Get the menu items from the data collector here.
+
+        menuItems = DataCollector.defaultMenu;
+
+
+
+        if(hallName.equals("Hoch-Shanahan")) {
+           if(mealtype.equals("Breakfast")) {
+                menuItems = DataCollector.hochBreakfast;
+            }
+            else if( mealtype.equals("Brunch")) {
+                menuItems = DataCollector.hochBrunch;
+            }
+            else if(mealtype.equals("Lunch")) {
+                menuItems = DataCollector.hochLunch;
+            }
+            else if(mealtype.equals("Dinner")) {
+                menuItems = DataCollector.hochDinner;
+            }
+            else {
+                // do nothing.
+            }
+
+        }
+
+
+
+
 
         // The following is for testing purposes, we really need to
         // input actual data here.
-
+/*
         menuItems = new String[20];
 
         menuItems[0] = "ice cream";
@@ -62,7 +92,7 @@ public class Meal {
         menuItems[17] = "shaved ice";
         menuItems[18] = "peanut butter";
         menuItems[19] = "brownies";
-
+*/
     }
 
     public String getMealType() {

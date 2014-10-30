@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 public class HomePage extends Activity implements View.OnClickListener {
 
+    DataCollector dataCollector;
+
     TextView mainTextView;
     Button firstButton;
     Button secondButton;
@@ -53,6 +55,10 @@ public class HomePage extends Activity implements View.OnClickListener {
         sixthButton.setOnClickListener(this);
         seventhButton = (Button) findViewById(R.id.seventh_button);
         seventhButton.setOnClickListener(this);
+
+
+        dataCollector = new DataCollector();
+
     }
 
 

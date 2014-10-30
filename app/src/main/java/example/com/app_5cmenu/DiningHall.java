@@ -34,6 +34,10 @@ public class DiningHall {
         return getCurrentMeal().getMenuItems();
     }
 
+
+
+    // I don't think any of the below methods are actually needed in our current implementation.
+
     public Meal getBreakfast() {
         // some code goes here.
         // return new Meal(diningHallName, "breakfast", dayofweek);  <-- Something like this?
