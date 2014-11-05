@@ -1,7 +1,7 @@
 package example.com.app_5cmenu.test;
 
 import android.test.InstrumentationTestCase;
-import example.com.app_5cmenu.Meal;
+//import example.com.app_5cmenu.Meal;
 
 
 /**

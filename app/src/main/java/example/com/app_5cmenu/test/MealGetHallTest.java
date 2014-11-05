@@ -1,12 +1,12 @@
-package example.com.app_5cmenu.test;
+//package example.com.app_5cmenu.test;
 
-import android.test.InstrumentationTestCase;
-import example.com.app_5cmenu.Meal;
+//import android.test.InstrumentationTestCase;
+//import example.com.app_5cmenu.Meal;
 
 /**
  * Created by Annie on 10/6/14.
  */
-public class MealGetHallTest extends InstrumentationTestCase {
+// public class MealGetHallTest extends InstrumentationTestCase {
 /*
     // getHall TESTS
     public void test_getHall_Hoch() throws Exception {
@@ -58,4 +58,4 @@ public class MealGetHallTest extends InstrumentationTestCase {
         assertEquals(expectedHall, actualHall);
     }
 */
-}
+//}
