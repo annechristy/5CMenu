@@ -9,15 +9,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+
+//import java.text.SimpleDateFormat;
+//import java.util.Calendar;
+//import java.util.Date;
+//import java.util.GregorianCalendar;
+//import java.util.Locale;
+//import java.util.TimeZone;
 
 
 public class MenuPage extends Activity {
+    // Parser information
+    private static final String URL = "https://aspc.pomona.edu/menu/";
+    ProgressDialog mProgressDialog;
+
     // Current hall and meal objects.
     DiningHall selectedHall;
     Meal currentMeal;
@@ -43,6 +56,8 @@ public class MenuPage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_page);
+
+        new FetchWebsiteData().execute();
 
         // Get information from the home page.
         hallDataStr = getIntent().getStringExtra("hall_data");
@@ -78,6 +93,8 @@ public class MenuPage extends Activity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItemsArray);
         MealListView.setAdapter(adapter);
 
+
+
     }
 
     /*
@@ -106,5 +123,50 @@ public class MenuPage extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+        String websiteTitle, websiteDescription;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(MenuPage.this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                // Connect to website
+                //Document document = Jsoup.connect(URL).get();
+                Document document = Jsoup.connect(URL).get();
+                // Get the html document title
+                websiteTitle = document.title();
+                System.out.println("DOCUMENT TITLE: " + websiteTitle);
+                Elements description = document.select("meta[name=description]");
+                // Locate the content attribute
+                websiteDescription = description.attr("content");
+
+                MalottWebScraper malottScrappy = new MalottWebScraper(document);
+
+
+            } catch (IOException e) {
+                System.out.println("STACK TRACE THINGY");
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // Set title into TextView
+            //TextView txttitle = (TextView) findViewById(R.id.txtData);
+           // txttitle.setText(websiteTitle + "\n" + websiteDescription);
+            System.out.println("I did that thing you wanted me to do!!!");
+            mProgressDialog.dismiss();
+        }
     }
 }

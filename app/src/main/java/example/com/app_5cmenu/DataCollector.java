@@ -26,8 +26,8 @@ public class DataCollector {
     public static String[] defaultMenu = new String[1];
 
     HochWebScraper hochScraper = new HochWebScraper();
-    MalottWebScraper malottScraper = new MalottWebScraper();
-
+    //MalottWebScraper malottScraper = new MalottWebScraper();
+    //OldenborgWebScraper oldenborgScraper = new OldenborgWebScraper();
     //      .
     //      .
     //      .

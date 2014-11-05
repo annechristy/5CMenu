@@ -62,9 +62,22 @@ public class Meal {
             }
 
         }
+        else if (hallName.equals("Malott Commons")) {
+            System.out.println("MALLOTT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if(mealtype.equals("Dinner")) {
+                System.out.println("changing the malott menu items here...");
+                menuItems = MalottWebScraper.getDinner();
+            }
+            else {
+                // do nothing.
+            }
+        }
+        else {
+            // do nothing.
+        }
 
 
-
+        System.out.println("MenuItems: " + menuItems);
 
 
         // The following is for testing purposes, we really need to
