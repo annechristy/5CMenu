@@ -1,7 +1,9 @@
 package example.com.app_5cmenu;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,14 +11,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-// import org.jsoup.Jsoup;
-// import org.jsoup.nodes.Document;
-// import org.jsoup.nodes.Element;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 
 public class HomePage extends Activity implements View.OnClickListener {
 
+    private static final String URL = "https://aspc.pomona.edu/menu/";
+    ProgressDialog mProgressDialog;
+
     DataCollector dataCollector;
+
 
     TextView mainTextView;
     Button firstButton;
@@ -57,7 +67,13 @@ public class HomePage extends Activity implements View.OnClickListener {
         seventhButton.setOnClickListener(this);
 
 
-        dataCollector = new DataCollector();
+        dataCollector = new DataCollector().getInstance();
+
+        System.out.println("hasTodaysData? " + dataCollector.hasTodaysData());
+        if(!dataCollector.hasTodaysData()) {
+            new FetchWebsiteData().execute();
+        }
+
 
     }
 
@@ -143,5 +159,52 @@ public class HomePage extends Activity implements View.OnClickListener {
         goToMenu_Intent = new Intent(this, MenuPage.class);
         startActivity(goToMenu_Intent);
         */
+    }
+
+    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+        String websiteTitle, websiteDescription;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(HomePage.this);
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                // Connect to website
+                //Document document = Jsoup.connect(URL).get();
+                Document document = Jsoup.connect(URL).get();
+
+                dataCollector.setDoc(document);
+                dataCollector.load();
+
+
+                // Get the html document title
+                //websiteTitle = document.title();
+                //System.out.println("DOCUMENT TITLE: " + websiteTitle);
+                //Elements description = document.select("meta[name=description]");
+                // Locate the content attribute
+                //websiteDescription = description.attr("content");
+
+            } catch (IOException e) {
+                //System.out.println("STACK TRACE THINGY");
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // Set title into TextView
+            //TextView txttitle = (TextView) findViewById(R.id.txtData);
+            // txttitle.setText(websiteTitle + "\n" + websiteDescription);
+            //System.out.println("I did that thing you wanted me to do!!!");
+            mProgressDialog.dismiss();
+        }
     }
 }
