@@ -26,9 +26,10 @@ public class MealTime {
      * This constructor creates a mealtime that represents the current meal
      * at the specified dining hall.
      */
+    /*
     public MealTime(String diningHallName) {
         diningHall = diningHallName;
-        setHallNum();
+        //setHallNum();
         setTime();
 
         mealType = currentMealType();
@@ -44,11 +45,10 @@ public class MealTime {
             mealtime = "ERROR";
         }
 
-    }
+    }*/
 
-    public MealTime(String diningHallName, String mealType) {
-        // Make this constructor work in the case that we want a mealtime that isn't for the
-        // current meal. Implement later.
+    public MealTime(int hallNumber) {
+        hallNum = hallNumber;
     }
 
     public void setTime() {
@@ -216,6 +216,24 @@ public class MealTime {
         return null;
     }
 
+    public int getMealTypeNum() {
+        if (this.currentMealType().equals("Breakfast")) {
+            return 1;
+        }
+        else if (this.currentMealType().equals("Lunch")) {
+            return 2;
+        }
+        else if (this.currentMealType().equals("Dinner")) {
+            return 3;
+        }
+        else if (this.currentMealType().equals("Brunch")) {
+            return 4;
+        }
+        else {
+            return -1;
+        }
+    }
+
     /*
      * For ease of conditionals and switch statements,
      * use the following ints to refer to dining halls
@@ -229,6 +247,7 @@ public class MealTime {
      * Frary            6
      * Oldenborg        7
      */
+    /*
     private void setHallNum() {
         if (diningHall.equals("Hoch-Shanahan")) {
             hallNum = 1;
@@ -254,6 +273,7 @@ public class MealTime {
             hallNum = -1; // Not a dining hall error code...
         }
     }
+*/
 
     /*
      * Return the String that represents breakfast time at the hall.
