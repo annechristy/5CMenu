@@ -36,6 +36,7 @@ public class DataCollector {
     private static DataCollector instance = null;
 
     Document doc;
+    ASPCScraper aspc;
 
     Calendar cal;
     int month = cal.MONTH;
@@ -44,16 +45,6 @@ public class DataCollector {
 
     int lastLoadMonth;
     int lastLoadDayOfMonth;
-
-
-    public static String[] defaultMenu = new String[1];
-
-    HochWebScraper hochScraper = new HochWebScraper();
-    //MalottWebScraper malottScraper = new MalottWebScraper();
-    //OldenborgWebScraper oldenborgScraper = new OldenborgWebScraper();
-    //      .
-    //      .
-    //      .
 
 
     public static ArrayList<String> hochBreakfast = new ArrayList<String>();
@@ -91,15 +82,14 @@ public class DataCollector {
     public static ArrayList<String> oldenborgDinner = new ArrayList<String>();
     public static ArrayList<String> oldenborgBrunch = new ArrayList<String>();
 
-    //      .
-    //      .
-    //      .
+
 
 
     protected DataCollector() {
         // Exists only to defeat instantiation.
     }
 
+    // Creates the Singleton Class
     public static DataCollector getInstance() {
         if (instance == null) {
             instance = new DataCollector();
@@ -107,8 +97,10 @@ public class DataCollector {
         return instance;
     }
 
+    // Grab an HTML document for parsing.
     public void setDoc(Document document) {
         doc = document;
+        aspc = new ASPCScraper(doc);
     }
 
     public boolean hasTodaysData() {
@@ -118,15 +110,21 @@ public class DataCollector {
         return false;
     }
 
+    // sets date values on a load so we know if we have already scraped the website that day.
     public void setDataLoad() {
         lastLoadDayOfMonth = dayOfMonth;
         lastLoadMonth = month;
     }
 
+    // load the data from the webscrapers into the ArrayLists
     public void load() {
+
 
         String title = doc.title();
         System.out.println("This is the website title; " + title);
+
+
+        System.out.println(aspc.parse(1,1));
 
         if(dayOfWeek == cal.SUNDAY || dayOfWeek == cal.SATURDAY) {
             // weekend: load brunch & dinner
@@ -146,7 +144,7 @@ public class DataCollector {
             fraryBrunch.add("This is the dinner string");
             oldenborgBrunch.add("This is the dinner string");
         } else {
-            hochBreakfast.add("This is the dinner string");
+            hochBreakfast = aspc.parse(1,1);
             malottBreakfast.add("This is the dinner string");
             mcconnellBreakfast.add("This is the dinner string");
             collinsBreakfast.add("This is the dinner string");
