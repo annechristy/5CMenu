@@ -168,15 +168,12 @@ public class MealTime {
             case 5:  // frank
 
                 // weekends
-                if(day == 1 ) {
+                if(day == 1 || day == 7) {
                     if(hour < 13 || (hour == 13 && min < 0)) {
                         return "Brunch";  // Brunch
                     } else {
                         return "Dinner";  // Dinner
                     }
-                }
-                else if(day == 7 || day == 6){
-                    return "Closed"; // The hall is closed.
                 } else {    // Weekdays
                     if(hour < 10 || (hour == 10 && min < 0)) {
                         return "Breakfast";  // Breakfast
@@ -209,9 +206,22 @@ public class MealTime {
             case 7:  // oldenborg
                 // weekends
                 if(day == 1 || day == 7) {
-                    return "Closed";
+                    if(hour < 12) {
+                        return "Brunch";
+                    }
+                    else {
+                        return "Dinner";
+                    }
                 } else {    // Weekdays
-                    return "Lunch";
+                    if(hour < 12) {
+                        return "Breakfast";
+                    }
+                    else if(hour >= 12 && hour < 13) {
+                        return "Lunch";
+                    }
+                    else {
+                        return "Dinner";
+                    }
                 }
 
         }

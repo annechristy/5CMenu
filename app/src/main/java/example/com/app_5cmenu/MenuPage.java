@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.io.IOException;
 
 public class MenuPage extends Activity {
 
-    // Current hall and meal objects.
+   // Current hall and meal objects.
    // DiningHall selectedHall;
     //Meal currentMeal;
     MealTime mealTime;
@@ -73,10 +74,17 @@ public class MenuPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_page);
 
+        //System.out.println("Franky stuff" + DataCollector.frankBreakfast);
+        //System.out.println(DataCollector.frankBrunch);
+        //System.out.println(DataCollector.frankLunch);
+        //System.out.println(DataCollector.frankDinner);
+
 
         // Get information from the home page.
         hallDataStr = getIntent().getStringExtra("hall_data");
         hallDataNum = getIntent().getIntExtra("hall_data_num", 0);
+
+       // System.out.println("hallDataNum: " + hallDataNum);
 
         // Make Mealtime object
         mealTime = new MealTime(hallDataNum);
@@ -102,160 +110,109 @@ public class MenuPage extends Activity {
        // Set the TextViews.
         DiningHallTextView.setText(hallDataStr);
         MealTextView.setText(mealTime.currentMealType());
+        System.out.println("CURRENT MEAL TIME: " + mealTime.currentMealTime());
+        System.out.println("CURRENT MEAL TYPE: " + mealTime.currentMealType());
         MealTimeTextView.setText(mealTime.currentMealTime());
 
         // Get the ListView.
         MealListView= (ListView) findViewById(R.id.meal_items_listview);
 
+
         // Initialize the adapter. Put menuItemsArray into the ListView.
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuItemsArray);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.setMenuItemsArray());
         MealListView.setAdapter(adapter);
 
 
 
     }
 
+
     /*
      * Fill the Menu Array with all of the food options on the Menu.
      * This is what will appear in the scrolling list view on the menu page.
      */
-    public void setMenuItemsArray() {
+    public String[] setMenuItemsArray() {
         // get the correct data from the data collector
         switch(hallDataNum) {
             case 1: // hoch
                 switch(mealNum) {
                     case 1:
-                        String[] hochBreakfastArr = new String[DataCollector.hochBreakfast.size()];
-                        hochBreakfastArr = DataCollector.hochBreakfast.toArray(hochBreakfastArr);
-                        menuItemsArray = hochBreakfastArr;
+                        return DataCollector.hochBreakfast;
                     case 2:
-                        String[] hochLunchArr = new String[DataCollector.hochLunch.size()];
-                        hochLunchArr = DataCollector.hochLunch.toArray(hochLunchArr);
-                        menuItemsArray = hochLunchArr;
+                        return DataCollector.hochLunch;
                     case 3:
-                        String[] hochDinnerArr = new String[DataCollector.hochDinner.size()];
-                        hochDinnerArr = DataCollector.hochDinner.toArray(hochDinnerArr);
-                        menuItemsArray = hochDinnerArr;
+                        return DataCollector.hochDinner;
                     case 4:
-                        String[] hochBrunchArr = new String[DataCollector.hochBrunch.size()];
-                        hochBrunchArr = DataCollector.hochBrunch.toArray(hochBrunchArr);
-                        menuItemsArray = hochBrunchArr;
+                        return DataCollector.hochBrunch;
                 }
             case 2: // malott
                 switch(mealNum) {
                     case 1:
-                        String[] malottBreakfastArr = new String[DataCollector.malottBreakfast.size()];
-                        malottBreakfastArr = DataCollector.malottBreakfast.toArray(malottBreakfastArr);
-                        menuItemsArray = malottBreakfastArr;
+                        return DataCollector.malottBreakfast;
                     case 2:
-                        String[] malottLunchArr = new String[DataCollector.malottLunch.size()];
-                        malottLunchArr = DataCollector.malottLunch.toArray(malottLunchArr);
-                        menuItemsArray = malottLunchArr;
+                        return DataCollector.malottLunch;
                     case 3:
-                        String[] malottDinnerArr = new String[DataCollector.malottDinner.size()];
-                        malottDinnerArr = DataCollector.malottDinner.toArray(malottDinnerArr);
-                        menuItemsArray = malottDinnerArr;
+                        return DataCollector.malottDinner;
                     case 4:
-                        String[] malottBrunchArr = new String[DataCollector.malottBrunch.size()];
-                        malottBrunchArr = DataCollector.malottBrunch.toArray(malottBrunchArr);
-                        menuItemsArray = malottBrunchArr;
+                        return DataCollector.malottBrunch;
                 }
-            case 3: // mcconnell
+            case 3: // collins
                 switch(mealNum) {
                     case 1:
-                        String[] mcconnellBreakfastArr = new String[DataCollector.mcconnellBreakfast.size()];
-                        mcconnellBreakfastArr = DataCollector.mcconnellBreakfast.toArray(mcconnellBreakfastArr);
-                        menuItemsArray = mcconnellBreakfastArr;
+                        return DataCollector.collinsBreakfast;
                     case 2:
-                        String[] mcconnellLunchArr = new String[DataCollector.mcconnellLunch.size()];
-                        mcconnellLunchArr = DataCollector.mcconnellLunch.toArray(mcconnellLunchArr);
-                        menuItemsArray = mcconnellLunchArr;
+                        return DataCollector.collinsLunch;
                     case 3:
-                        String[] mcconnellDinnerArr = new String[DataCollector.mcconnellDinner.size()];
-                        mcconnellDinnerArr = DataCollector.mcconnellDinner.toArray(mcconnellDinnerArr);
-                        menuItemsArray = mcconnellDinnerArr;
+                        return DataCollector.collinsDinner;
                     case 4:
-                        String[] mcconnellBrunchArr = new String[DataCollector.mcconnellBrunch.size()];
-                        mcconnellBrunchArr = DataCollector.mcconnellBrunch.toArray(mcconnellBrunchArr);
-                        menuItemsArray = mcconnellBrunchArr;
+                        return DataCollector.collinsBrunch;
                 }
-            case 4: // collins
+            case 4: // mcconnell
                 switch(mealNum) {
                     case 1:
-                        String[] collinsBreakfastArr = new String[DataCollector.collinsBreakfast.size()];
-                        collinsBreakfastArr = DataCollector.collinsBreakfast.toArray(collinsBreakfastArr);
-                        menuItemsArray = collinsBreakfastArr;
+                        return DataCollector.mcconnellBreakfast;
                     case 2:
-                        String[] collinsLunchArr = new String[DataCollector.collinsLunch.size()];
-                        collinsLunchArr = DataCollector.collinsLunch.toArray(collinsLunchArr);
-                        menuItemsArray = collinsLunchArr;
+                        return DataCollector.mcconnellLunch;
                     case 3:
-                        String[] collinsDinnerArr = new String[DataCollector.collinsDinner.size()];
-                        collinsDinnerArr = DataCollector.collinsDinner.toArray(collinsDinnerArr);
-                        menuItemsArray = collinsDinnerArr;
+                        return DataCollector.mcconnellDinner;
                     case 4:
-                        String[] collinsBrunchArr = new String[DataCollector.collinsBrunch.size()];
-                        collinsBrunchArr = DataCollector.collinsBrunch.toArray(collinsBrunchArr);
-                        menuItemsArray = collinsBrunchArr;
+                        return DataCollector.mcconnellBrunch;
                 }
             case 5: // frank
                 switch(mealNum) {
                     case 1:
-                        String[] frankBreakfastArr = new String[DataCollector.frankBreakfast.size()];
-                        frankBreakfastArr = DataCollector.frankBreakfast.toArray(frankBreakfastArr);
-                        menuItemsArray = frankBreakfastArr;
+                        return DataCollector.frankBreakfast;
                     case 2:
-                        String[] frankLunchArr = new String[DataCollector.frankLunch.size()];
-                        frankLunchArr = DataCollector.frankLunch.toArray(frankLunchArr);
-                        menuItemsArray = frankLunchArr;
+                        return DataCollector.frankLunch;
                     case 3:
-                        String[] frankDinnerArr = new String[DataCollector.frankDinner.size()];
-                        frankDinnerArr = DataCollector.frankDinner.toArray(frankDinnerArr);
-                        menuItemsArray = frankDinnerArr;
+                        return DataCollector.frankDinner;
                     case 4:
-                        String[] frankBrunchArr = new String[DataCollector.frankBrunch.size()];
-                        frankBrunchArr = DataCollector.frankBrunch.toArray(frankBrunchArr);
-                        menuItemsArray = frankBrunchArr;
+                        return DataCollector.frankBrunch;
                 }
             case 6: // frary
                 switch(mealNum) {
                     case 1:
-                        String[] fraryBreakfastArr = new String[DataCollector.fraryBreakfast.size()];
-                        fraryBreakfastArr = DataCollector.fraryBreakfast.toArray(fraryBreakfastArr);
-                        menuItemsArray = fraryBreakfastArr;
+                        return DataCollector.fraryBreakfast;
                     case 2:
-                        String[] fraryLunchArr = new String[DataCollector.fraryLunch.size()];
-                        fraryLunchArr = DataCollector.fraryLunch.toArray(fraryLunchArr);
-                        menuItemsArray = fraryLunchArr;
+                        return DataCollector.fraryLunch;
                     case 3:
-                        String[] fraryDinnerArr = new String[DataCollector.fraryDinner.size()];
-                        fraryDinnerArr = DataCollector.fraryDinner.toArray(fraryDinnerArr);
-                        menuItemsArray = fraryDinnerArr;
+                        return DataCollector.fraryDinner;
                     case 4:
-                        String[] fraryBrunchArr = new String[DataCollector.fraryBrunch.size()];
-                        fraryBrunchArr = DataCollector.fraryBrunch.toArray(fraryBrunchArr);
-                        menuItemsArray = fraryBrunchArr;
+                        return DataCollector.fraryBrunch;
                 }
             case 7: // oldenborg
                 switch(mealNum) {
                     case 1:
-                        String[] oldenborgBreakfastArr = new String[DataCollector.oldenborgBreakfast.size()];
-                        oldenborgBreakfastArr = DataCollector.oldenborgBreakfast.toArray(oldenborgBreakfastArr);
-                        menuItemsArray = oldenborgBreakfastArr;
+                        return DataCollector.oldenborgBreakfast;
                     case 2:
-                        String[] oldenborgLunchArr = new String[DataCollector.oldenborgLunch.size()];
-                        oldenborgLunchArr = DataCollector.oldenborgLunch.toArray(oldenborgLunchArr);
-                        menuItemsArray = oldenborgLunchArr;
+                        return DataCollector.oldenborgLunch;
                     case 3:
-                        String[] oldenborgDinnerArr = new String[DataCollector.oldenborgDinner.size()];
-                        oldenborgDinnerArr = DataCollector.oldenborgDinner.toArray(oldenborgDinnerArr);
-                        menuItemsArray = oldenborgDinnerArr;
+                        return DataCollector.oldenborgDinner;
                     case 4:
-                        String[] oldenborgBrunchArr = new String[DataCollector.oldenborgBrunch.size()];
-                        oldenborgBrunchArr = DataCollector.oldenborgBrunch.toArray(oldenborgBrunchArr);
-                        menuItemsArray = oldenborgBrunchArr;
+                        return DataCollector.oldenborgBrunch;
                 }
         }
+        return null;
     }
 
 
