@@ -1,12 +1,9 @@
 package example.com.app_5cmenu;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Annie on 10/29/14.
@@ -38,15 +35,19 @@ public class DataCollector {
     Document doc;
 
     Calendar cal;
-    int month = cal.MONTH;
-    int dayOfMonth = cal.DAY_OF_MONTH;
-    int dayOfWeek = cal.DAY_OF_WEEK;
+    int month = Calendar.MONTH;
+    int dayOfMonth = Calendar.DAY_OF_MONTH;
+    int dayOfWeek = Calendar.DAY_OF_WEEK;
+    int year = Calendar.YEAR;
 
     int lastLoadMonth;
     int lastLoadDayOfMonth;
 
 
     public static String[] defaultMenu = new String[1];
+
+
+    ASPCWebScraper ASPCScraper = new ASPCWebScraper();
 
     HochWebScraper hochScraper = new HochWebScraper();
     //MalottWebScraper malottScraper = new MalottWebScraper();
@@ -123,57 +124,93 @@ public class DataCollector {
         lastLoadMonth = month;
     }
 
-    public void load() {
 
-        String title = doc.title();
-        System.out.println("This is the website title; " + title);
 
-        if(dayOfWeek == cal.SUNDAY || dayOfWeek == cal.SATURDAY) {
-            // weekend: load brunch & dinner
-            hochDinner.add("This is the dinner string");
-            malottDinner.add("This is the dinner string");
-            mcconnellDinner.add("This is the dinner string");
-            collinsDinner.add("This is the dinner string");
-            frankDinner.add("This is the dinner string");
-            fraryDinner.add("This is the dinner string");
-            oldenborgDinner.add("This is the dinner string");
-
-            hochBrunch.add("This is the dinner string");
-            malottBrunch.add("This is the dinner string");
-            mcconnellBrunch.add("This is the dinner string");
-            collinsBrunch.add("This is the dinner string");
-            frankBrunch.add("This is the dinner string");
-            fraryBrunch.add("This is the dinner string");
-            oldenborgBrunch.add("This is the dinner string");
-        } else {
-            hochBreakfast.add("This is the dinner string");
-            malottBreakfast.add("This is the dinner string");
-            mcconnellBreakfast.add("This is the dinner string");
-            collinsBreakfast.add("This is the dinner string");
-            frankBreakfast.add("This is the dinner string");
-            fraryBreakfast.add("This is the dinner string");
-            oldenborgBreakfast.add("This is the dinner string");
-
-            hochLunch.add("This is the dinner string");
-            malottLunch.add("This is the dinner string");
-            mcconnellLunch.add("This is the dinner string");
-            collinsLunch.add("This is the dinner string");
-            frankLunch.add("This is the dinner string");
-            fraryLunch.add("This is the dinner string");
-            oldenborgLunch.add("This is the dinner string");
-
-            hochDinner.add("This is the dinner string");
-            malottDinner.add("This is the dinner string");
-            mcconnellDinner.add("This is the dinner string");
-            collinsDinner.add("This is the dinner string");
-            frankDinner.add("This is the dinner string");
-            fraryDinner.add("This is the dinner string");
-            oldenborgDinner.add("This is the dinner string");
-
+    // For example, OldenborgBrunch on would be hall = 7, meal = 4
+    public void addItemsToArray(ArrayList<String> inputArray, int hall, int meal) {
+        ArrayList<String> tempArray = ASPCScraper.parse(hall, meal);
+        int i;
+        int testLength = tempArray.size();
+        String current_element;
+        for (i = 0; i < testLength; i++) {
+            current_element = tempArray.get(i);
+            inputArray.add(current_element);
         }
-        this.setDataLoad();
     }
 
 
 
+
+    public void load() {
+
+        String title = doc.title();
+        System.out.println("This is the website title; " + title);
+        System.out.println("dayOfWeek: " + dayOfWeek);
+        System.out.println("dayOfMonth: " + dayOfMonth);
+        System.out.println("month: " + month);
+        System.out.println("year: " + year);
+
+        if(dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) {
+            // weekend: load brunch & dinner
+            hochDinner.add("This is the dinner string21");
+            malottDinner.add("This is the dinner string22");
+            mcconnellDinner.add("This is the dinner string23");
+            collinsDinner.add("This is the dinner string24");
+            frankDinner.add("This is the dinner string25");
+            fraryDinner.add("This is the dinner string26");
+            oldenborgDinner.add("This is the dinner string27");
+
+            hochBrunch.add("This is the dinner string28");
+            malottBrunch.add("This is the dinner string29");
+            mcconnellBrunch.add("This is the dinner string30");
+            collinsBrunch.add("This is the dinner string31");
+            frankBrunch.add("This is the dinner string32");
+            fraryBrunch.add("This is the dinner string33");
+            //oldenborgBrunch.add("This is the dinner string34");
+            //oldenborgBrunch.add("This is the dinner string35");
+
+            // maybe we can't add the whole array at once??
+            //ArrayList<String> testArray = ASPCScraper.parse(7, 4);
+            //System.out.println("TEST ARRAY: " + testArray);
+            //int i;
+            //int testLength = testArray.size();
+            //String current_element;
+            //for (i = 0; i < testLength; i++) {
+            //    current_element = testArray.get(i);
+            //    oldenborgBrunch.add(current_element);
+            //}
+            //oldenborgBrunch.add("This is the Oldenborg Brunch String");
+
+            // Use helper instead!
+            addItemsToArray(oldenborgBrunch, 7, 4);
+
+        } else {
+            hochBreakfast.add("This is the BREAKFAST string");
+            malottBreakfast.add("This is the dinner string1");
+            mcconnellBreakfast.add("This is the dinner string2");
+            collinsBreakfast.add("This is the dinner string3");
+            frankBreakfast.add("This is the dinner string4");
+            fraryBreakfast.add("This is the dinner string5");
+            oldenborgBreakfast.add("This is the dinner string6");
+
+            hochLunch.add("This is the LUNCH string7");
+            malottLunch.add("This is the dinner string8");
+            mcconnellLunch.add("This is the dinner string9");
+            collinsLunch.add("This is the dinner string10");
+            frankLunch.add("This is the dinner string11");
+            fraryLunch.add("This is the dinner string12");
+            oldenborgLunch.add("This is the dinner string13");
+
+            hochDinner.add("This is the DINNER string14");
+            malottDinner.add("This is the dinner string15");
+            mcconnellDinner.add("This is the dinner string16");
+            collinsDinner.add("This is the dinner string17");
+            frankDinner.add("This is the dinner string18");
+            fraryDinner.add("This is the dinner string19");
+            oldenborgDinner.add("This is the dinner string20");
+
+        }
+        this.setDataLoad();
+        System.out.println("hochBrunch: " + hochBrunch);
+    }
 }

@@ -80,7 +80,9 @@ public class MenuPage extends Activity {
 
         // Make Mealtime object
         mealTime = new MealTime(hallDataNum);
+        //System.out.println("Meal Time: " + mealTime);
         mealNum = mealTime.getMealTypeNum();
+        //System.out.println("Meal Type: " + mealNum);
 
         // Make the DiningHall object.
         //selectedHall = new DiningHall(hallDataStr);
