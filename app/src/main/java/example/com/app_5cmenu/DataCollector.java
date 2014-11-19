@@ -36,6 +36,7 @@ public class DataCollector {
     private static DataCollector instance = null;
 
     Document doc;
+    ASPCScraper aspc;
 
     Calendar cal;
     int month = cal.MONTH;
@@ -45,60 +46,54 @@ public class DataCollector {
     int lastLoadMonth;
     int lastLoadDayOfMonth;
 
-
-    public static String[] defaultMenu = new String[1];
-
-    HochWebScraper hochScraper = new HochWebScraper();
-    //MalottWebScraper malottScraper = new MalottWebScraper();
-    //OldenborgWebScraper oldenborgScraper = new OldenborgWebScraper();
-    //      .
-    //      .
-    //      .
+    public static String[] testHochDinnerArr;
 
 
-    public static ArrayList<String> hochBreakfast = new ArrayList<String>();
-    public static ArrayList<String> hochLunch = new ArrayList<String>();
-    public static ArrayList<String> hochDinner = new ArrayList<String>();
-    public static ArrayList<String> hochBrunch = new ArrayList<String>();
+    public static String[] hochBreakfast;
+    public static String[] hochLunch;
+    public static String[] hochDinner;
+    public static String[] hochBrunch;
 
-    public static ArrayList<String> malottBreakfast = new ArrayList<String>();
-    public static ArrayList<String> malottLunch = new ArrayList<String>();
-    public static ArrayList<String> malottDinner = new ArrayList<String>();
-    public static ArrayList<String> malottBrunch = new ArrayList<String>();
+    public static String[] malottBreakfast;
+    public static String[] malottLunch;
+    public static String[] malottDinner;
+    public static String[] malottBrunch;
 
-    public static ArrayList<String> mcconnellBreakfast = new ArrayList<String>();
-    public static ArrayList<String> mcconnellLunch = new ArrayList<String>();
-    public static ArrayList<String> mcconnellDinner = new ArrayList<String>();
-    public static ArrayList<String> mcconnellBrunch = new ArrayList<String>();
+    public static String[] mcconnellBreakfast;
+    public static String[] mcconnellLunch;
+    public static String[] mcconnellDinner;
+    public static String[] mcconnellBrunch;
 
-    public static ArrayList<String> collinsBreakfast = new ArrayList<String>();
-    public static ArrayList<String> collinsLunch = new ArrayList<String>();
-    public static ArrayList<String> collinsDinner = new ArrayList<String>();
-    public static ArrayList<String> collinsBrunch = new ArrayList<String>();
+    public static String[] collinsBreakfast;
+    public static String[] collinsLunch;
+    public static String[] collinsDinner;
+    public static String[] collinsBrunch;
 
-    public static ArrayList<String> frankBreakfast = new ArrayList<String>();
-    public static ArrayList<String> frankLunch = new ArrayList<String>();
-    public static ArrayList<String> frankDinner = new ArrayList<String>();
-    public static ArrayList<String> frankBrunch = new ArrayList<String>();
+    public static String[] frankBreakfast;
+    public static String[] frankLunch;
+    public static String[] frankDinner;
+    public static String[] frankBrunch;
 
-    public static ArrayList<String> fraryBreakfast = new ArrayList<String>();
-    public static ArrayList<String> fraryLunch = new ArrayList<String>();
-    public static ArrayList<String> fraryDinner = new ArrayList<String>();
-    public static ArrayList<String> fraryBrunch = new ArrayList<String>();
+    public static String[] fraryBreakfast;
+    public static String[] fraryLunch;
+    public static String[] fraryDinner;
+    public static String[] fraryBrunch;
 
-    public static ArrayList<String> oldenborgBreakfast = new ArrayList<String>();
-    public static ArrayList<String> oldenborgLunch = new ArrayList<String>();
-    public static ArrayList<String> oldenborgDinner = new ArrayList<String>();
-    public static ArrayList<String> oldenborgBrunch = new ArrayList<String>();
+    public static String[] oldenborgBreakfast;
+    public static String[] oldenborgLunch;
+    public static String[] oldenborgDinner;
+    public static String[] oldenborgBrunch;
 
-    //      .
-    //      .
-    //      .
+
 
 
     protected DataCollector() {
         // Exists only to defeat instantiation.
     }
+
+
+
+    // Creates the Singleton Class
 
     public static DataCollector getInstance() {
         if (instance == null) {
@@ -107,8 +102,11 @@ public class DataCollector {
         return instance;
     }
 
+
+    // Grab an HTML document for parsing.
     public void setDoc(Document document) {
         doc = document;
+        aspc = new ASPCScraper(doc);
     }
 
     public boolean hasTodaysData() {
@@ -118,57 +116,121 @@ public class DataCollector {
         return false;
     }
 
+    // sets date values on a load so we know if we have already scraped the website that day.
     public void setDataLoad() {
         lastLoadDayOfMonth = dayOfMonth;
         lastLoadMonth = month;
     }
 
+    private String[] parseMeal(int hall, int meal) {
+        String aspc_hallid = "";
+        String mealStr = "";
+
+        switch(hall) {
+            case 1: aspc_hallid = "mudd_menu";
+                break;
+            case 2: aspc_hallid = "scripps_menu";
+                break;
+            case 3: aspc_hallid = "cmc_menu";
+                break;
+            case 4: aspc_hallid = "pitzer_menu";
+                break;
+            case 5: aspc_hallid = "frank_menu";
+                break;
+            case 6: aspc_hallid = "frary_menu";
+                break;
+            case 7: aspc_hallid = "oldenborg_menu";
+                System.out.println("oldenborg_menu");
+                break;
+        }
+
+        switch(meal) {
+            case 1: mealStr = "Breakfast";
+                break;
+            case 2: mealStr = "Lunch";
+                break;
+            case 3: mealStr = "Dinner";
+                System.out.println("Dinner");
+                break;
+            case 4: mealStr = "Brunch";
+                break;
+        }
+
+        Elements menutable = doc.select("table#menu_table");
+        Elements hochMenu = menutable.select("tr#" + aspc_hallid);
+        Elements ul = hochMenu.select("td:contains(" + mealStr + ") > ul");
+        Elements li = ul.select("li");
+        System.out.println("THE MENU ITEMS:");
+
+        // Scan once for the number of items.
+        int numitems = 0;
+        for (Element e : li) {
+            numitems++;
+        }
+
+        // Scan second time for items.
+        String[] resultArr = new String[numitems];
+        int index = 0;
+        for (Element e : li) {
+            resultArr[index] = e.text();
+            index++;
+        }
+
+        System.out.println("resultArr: " + resultArr[0]);
+        return resultArr;
+    }
+
+
+
+        // load the data from the webscrapers into the ArrayLists
     public void load() {
+
 
         String title = doc.title();
         System.out.println("This is the website title; " + title);
 
+
         if(dayOfWeek == cal.SUNDAY || dayOfWeek == cal.SATURDAY) {
             // weekend: load brunch & dinner
-            hochDinner.add("This is the dinner string");
-            malottDinner.add("This is the dinner string");
-            mcconnellDinner.add("This is the dinner string");
-            collinsDinner.add("This is the dinner string");
-            frankDinner.add("This is the dinner string");
-            fraryDinner.add("This is the dinner string");
-            oldenborgDinner.add("This is the dinner string");
+            hochDinner = this.parseMeal(1,3);
+            malottDinner = this.parseMeal(2,3);
+            mcconnellDinner = this.parseMeal(4,3);
+            collinsDinner = this.parseMeal(3,3);
+            frankDinner = this.parseMeal(5,3);
+            fraryDinner = this.parseMeal(6,3);
+            oldenborgDinner = this.parseMeal(7,3);
 
-            hochBrunch.add("This is the dinner string");
-            malottBrunch.add("This is the dinner string");
-            mcconnellBrunch.add("This is the dinner string");
-            collinsBrunch.add("This is the dinner string");
-            frankBrunch.add("This is the dinner string");
-            fraryBrunch.add("This is the dinner string");
-            oldenborgBrunch.add("This is the dinner string");
+            hochBrunch = this.parseMeal(1,3);
+            malottBrunch = this.parseMeal(2,3);
+            mcconnellBrunch = this.parseMeal(4,3);
+            collinsBrunch = this.parseMeal(3,3);
+            frankBrunch = this.parseMeal(5,3);
+            fraryBrunch = this.parseMeal(6,3);
+            oldenborgBrunch = this.parseMeal(7,3);
         } else {
-            hochBreakfast.add("This is the dinner string");
-            malottBreakfast.add("This is the dinner string");
-            mcconnellBreakfast.add("This is the dinner string");
-            collinsBreakfast.add("This is the dinner string");
-            frankBreakfast.add("This is the dinner string");
-            fraryBreakfast.add("This is the dinner string");
-            oldenborgBreakfast.add("This is the dinner string");
+            hochBreakfast = this.parseMeal(1,3);
+            malottBreakfast = this.parseMeal(2,3);
+            mcconnellBreakfast = this.parseMeal(4,3);
+            collinsBreakfast = this.parseMeal(3,3);
+            frankBreakfast = this.parseMeal(5,3);
+            fraryBreakfast = this.parseMeal(6,3);
+            oldenborgBreakfast = this.parseMeal(7,3);
 
-            hochLunch.add("This is the dinner string");
-            malottLunch.add("This is the dinner string");
-            mcconnellLunch.add("This is the dinner string");
-            collinsLunch.add("This is the dinner string");
-            frankLunch.add("This is the dinner string");
-            fraryLunch.add("This is the dinner string");
-            oldenborgLunch.add("This is the dinner string");
+            hochLunch = this.parseMeal(1,3);
+            malottLunch = this.parseMeal(2,3);
+            mcconnellLunch = this.parseMeal(4,3);
+            collinsLunch = this.parseMeal(3,3);
+            frankLunch = this.parseMeal(5,3);
+            fraryLunch = this.parseMeal(6,3);
+            oldenborgLunch = this.parseMeal(7,3);
 
-            hochDinner.add("This is the dinner string");
-            malottDinner.add("This is the dinner string");
-            mcconnellDinner.add("This is the dinner string");
-            collinsDinner.add("This is the dinner string");
-            frankDinner.add("This is the dinner string");
-            fraryDinner.add("This is the dinner string");
-            oldenborgDinner.add("This is the dinner string");
+            hochDinner = this.parseMeal(1,3);
+            malottDinner = this.parseMeal(2,3);
+            mcconnellDinner = this.parseMeal(4,3);
+            collinsDinner = this.parseMeal(3,3);
+            frankDinner = this.parseMeal(5,3);
+            fraryDinner = this.parseMeal(6,3);
+            oldenborgDinner = this.parseMeal(7,3);
 
         }
         this.setDataLoad();
