@@ -70,9 +70,9 @@ public class HomePage extends Activity implements View.OnClickListener {
         dataCollector = new DataCollector().getInstance();
 
         System.out.println("hasTodaysData? " + dataCollector.hasTodaysData());
-        //if(!dataCollector.hasTodaysData()) {
+        if(!dataCollector.hasTodaysData()) {
             new FetchWebsiteData().execute();
-        //}
+        }
 
 
     }

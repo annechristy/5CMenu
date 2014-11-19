@@ -25,7 +25,7 @@ public class ASPCScraper {
 
         switch(hall) {
             case 1: // hoch
-                Elements hochMenu = menutable.select("tr#mudd_menu");
+                Elements hochMenu = menutable.select("tr#frank_menu");
                 switch(meal) {
                     case 1: // breakfast
 
