@@ -161,7 +161,7 @@ public class HomePage extends Activity implements View.OnClickListener {
         */
     }
 
-    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+    public class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
         String websiteTitle, websiteDescription;
 
         @Override
@@ -182,6 +182,10 @@ public class HomePage extends Activity implements View.OnClickListener {
 
                 dataCollector.setDoc(document);
                 dataCollector.load();
+                System.out.println("HOMEPAGE IS CALLING DATACOLLECTOR");
+                System.out.println("DATACOLLECTOR.HOCHBREAKFAST: " + DataCollector.hochBreakfast);
+
+                //String[] hochBreakfast = DataCollector.parseMeal(1, 3);
 
 
                 // Get the html document title
