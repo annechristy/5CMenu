@@ -3,10 +3,9 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -20,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gold"
+            android:background="@color/textgray"
             android:orientation="horizontal" >
 
             <TextView
@@ -31,6 +30,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="4"
+                android:background="@color/textgray"
 
                 android:textSize="@dimen/hochMealSize"
                 android:textColor="@color/black"
@@ -45,20 +45,52 @@
 
                 android:textSize="@dimen/hochMealHoursSize"
                 android:textColor="@color/black"
+                android:background="@color/textgray"
                 android:text="@string/hours"/>
 
 
 
         </LinearLayout>
 
+    <View
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:background="@color/bgcolor"/>
+
 
     <!-- List whose dataset is defined in code with an adapter -->
     <ListView
+
         android:id="@+id/meal_items_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="5dp"
+        android:background="@color/textgray"
+        />
+
+
+
+    <View
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/textgray"/>
+
+    <TextView
+        android:id="@+id/copywrite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:text="\u00A9 2014 Anne Christy and Hannah Turk"/>
 
 
 </LinearLayout>
