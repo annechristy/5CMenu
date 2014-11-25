@@ -108,16 +108,26 @@ public class MenuPage extends Activity {
        // Set the TextViews.
         DiningHallTextView.setText(hallDataStr);
         MealTextView.setText(mealTime.currentMealType());
-        System.out.println("CURRENT MEAL TIME: " + mealTime.currentMealTime());
-        System.out.println("CURRENT MEAL TYPE: " + mealTime.currentMealType());
+        //System.out.println("CURRENT MEAL TIME: " + mealTime.currentMealTime());
+        //System.out.println("CURRENT MEAL TYPE: " + mealTime.currentMealType());
         MealTimeTextView.setText(mealTime.currentMealTime());
 
         // Get the ListView.
         MealListView= (ListView) findViewById(R.id.meal_items_listview);
 
+        System.out.println("Hall data num = " + hallDataNum + "     Meal num = " + mealNum);
+
+        String[] menuArr = this.setMenuItemsArray();
+        System.out.println("MENU_ARR : " + menuArr);
+        if(menuArr == null) {
+            menuArr = new String[1];
+            menuArr[0] = "The menuItemsArray is null.";
+        }
+        System.out.println("menu arr after added stuff: " + menuArr);
+
 
         // Initialize the adapter. Put menuItemsArray into the ListView.
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, this.setMenuItemsArray());
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuArr);
         MealListView.setAdapter(adapter);
 
 
@@ -135,6 +145,7 @@ public class MenuPage extends Activity {
             case 1: // hoch
                 switch(mealNum) {
                     case 1:
+                        System.out.println("returning DataCollector.hochBreakfast    --> " + DataCollector.hochBreakfast);
                         return DataCollector.hochBreakfast;
                     case 2:
                         return DataCollector.hochLunch;

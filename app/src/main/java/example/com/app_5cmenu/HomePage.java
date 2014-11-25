@@ -47,7 +47,7 @@ public class HomePage extends Activity implements View.OnClickListener {
         // 1. Access the TextView defined in layout XML
         // and then set its text
         mainTextView = (TextView) findViewById(R.id.main_textview);
-        mainTextView.setText("Welcome to the 5C Menu App!");
+        //mainTextView.setText("Welcome to the 5C Menu App!");
 
         // 2. Access the Button(s) defined in layout XML
         // and listen for it here

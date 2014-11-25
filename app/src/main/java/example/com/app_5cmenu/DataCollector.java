@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -38,16 +39,16 @@ public class DataCollector {
     Document doc;
     ASPCScraper aspc;
 
-    Calendar cal;
+    GregorianCalendar cal;
     int month = cal.MONTH;
     int dayOfMonth = cal.DAY_OF_MONTH;
     int dayOfWeek = cal.DAY_OF_WEEK;
 
+    String nowTime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+
     int lastLoadMonth;
     int lastLoadDayOfMonth;
-
-    public static String[] testHochDinnerArr;
-
 
     public static String[] hochBreakfast;
     public static String[] hochLunch;
@@ -107,13 +108,13 @@ public class DataCollector {
     public void setDoc(Document document) {
         doc = document;
         aspc = new ASPCScraper(doc);
+        System.out.println("nowTime: " + nowTime);
+        System.out.println("Day: " + cal.DAY_OF_WEEK);
+
     }
 
     public boolean hasTodaysData() {
-        if(lastLoadMonth == month && lastLoadDayOfMonth == dayOfMonth) {
-            return true;
-        }
-        return false;
+        return lastLoadMonth == month && lastLoadDayOfMonth == dayOfMonth;
     }
 
     // sets date values on a load so we know if we have already scraped the website that day.
@@ -140,7 +141,6 @@ public class DataCollector {
             case 6: aspc_hallid = "frary_menu";
                 break;
             case 7: aspc_hallid = "oldenborg_menu";
-                System.out.println("oldenborg_menu");
                 break;
         }
 
@@ -150,7 +150,6 @@ public class DataCollector {
             case 2: mealStr = "Lunch";
                 break;
             case 3: mealStr = "Dinner";
-                System.out.println("Dinner");
                 break;
             case 4: mealStr = "Brunch";
                 break;
@@ -160,11 +159,12 @@ public class DataCollector {
         Elements hochMenu = menutable.select("tr#" + aspc_hallid);
         Elements ul = hochMenu.select("td:contains(" + mealStr + ") > ul");
         Elements li = ul.select("li");
-        System.out.println("THE MENU ITEMS:");
+        //System.out.println("THE MENU ITEMS:");
 
         // Scan once for the number of items.
         int numitems = 0;
         for (Element e : li) {
+            System.out.println("item: " + e.text());
             numitems++;
         }
 
@@ -181,13 +181,14 @@ public class DataCollector {
     }
 
 
-
         // load the data from the webscrapers into the ArrayLists
     public void load() {
 
 
         String title = doc.title();
         System.out.println("This is the website title; " + title);
+
+        System.out.println("DAY Of WEEK: " + dayOfWeek);
 
 
         if(dayOfWeek == cal.SUNDAY || dayOfWeek == cal.SATURDAY) {
@@ -208,21 +209,22 @@ public class DataCollector {
             fraryBrunch = this.parseMeal(6,3);
             oldenborgBrunch = this.parseMeal(7,3);
         } else {
-            hochBreakfast = this.parseMeal(1,3);
-            malottBreakfast = this.parseMeal(2,3);
-            mcconnellBreakfast = this.parseMeal(4,3);
-            collinsBreakfast = this.parseMeal(3,3);
-            frankBreakfast = this.parseMeal(5,3);
-            fraryBreakfast = this.parseMeal(6,3);
-            oldenborgBreakfast = this.parseMeal(7,3);
+            System.out.println("checking if breakfasts are loading");
+            hochBreakfast = this.parseMeal(1,1);
+            malottBreakfast = this.parseMeal(2,1);
+            mcconnellBreakfast = this.parseMeal(4,1);
+            collinsBreakfast = this.parseMeal(3,1);
+            frankBreakfast = this.parseMeal(5,1);
+            fraryBreakfast = this.parseMeal(6,1);
+            oldenborgBreakfast = this.parseMeal(7,1);
 
-            hochLunch = this.parseMeal(1,3);
-            malottLunch = this.parseMeal(2,3);
-            mcconnellLunch = this.parseMeal(4,3);
-            collinsLunch = this.parseMeal(3,3);
-            frankLunch = this.parseMeal(5,3);
-            fraryLunch = this.parseMeal(6,3);
-            oldenborgLunch = this.parseMeal(7,3);
+            hochLunch = this.parseMeal(1,2);
+            malottLunch = this.parseMeal(2,2);
+            mcconnellLunch = this.parseMeal(4,2);
+            collinsLunch = this.parseMeal(3,2);
+            frankLunch = this.parseMeal(5,2);
+            fraryLunch = this.parseMeal(6,2);
+            oldenborgLunch = this.parseMeal(7,2);
 
             hochDinner = this.parseMeal(1,3);
             malottDinner = this.parseMeal(2,3);
@@ -235,7 +237,5 @@ public class DataCollector {
         }
         this.setDataLoad();
     }
-
-
 
 }
