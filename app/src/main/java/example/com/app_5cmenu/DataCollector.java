@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Annie on 10/29/14.
@@ -38,17 +37,23 @@ public class DataCollector {
 
     Document doc;
     ASPCScraper aspc;
+    MealTime mealTime = new MealTime();
 
-    GregorianCalendar cal;
-    int month = cal.MONTH;
-    int dayOfMonth = cal.DAY_OF_MONTH;
-    int dayOfWeek = cal.DAY_OF_WEEK;
+
+    Calendar cal;
+    int month = Calendar.MONTH;
+    int dayOfMonth = Calendar.DAY_OF_MONTH;
+    int dayOfWeek = Calendar.DAY_OF_WEEK;
+    int year = Calendar.YEAR;
+
 
     String nowTime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 
 
+
     int lastLoadMonth;
     int lastLoadDayOfMonth;
+
 
     public static String[] hochBreakfast;
     public static String[] hochLunch;
@@ -123,7 +128,8 @@ public class DataCollector {
         lastLoadMonth = month;
     }
 
-    private String[] parseMeal(int hall, int meal) {
+
+    public String[] parseMeal(int hall, int meal) {
         String aspc_hallid = "";
         String mealStr = "";
 
@@ -182,60 +188,72 @@ public class DataCollector {
 
 
         // load the data from the webscrapers into the ArrayLists
+
     public void load() {
 
 
         String title = doc.title();
         System.out.println("This is the website title; " + title);
 
-        System.out.println("DAY Of WEEK: " + dayOfWeek);
 
+        try {
 
-        if(dayOfWeek == cal.SUNDAY || dayOfWeek == cal.SATURDAY) {
-            // weekend: load brunch & dinner
-            hochDinner = this.parseMeal(1,3);
-            malottDinner = this.parseMeal(2,3);
-            mcconnellDinner = this.parseMeal(4,3);
-            collinsDinner = this.parseMeal(3,3);
-            frankDinner = this.parseMeal(5,3);
-            fraryDinner = this.parseMeal(6,3);
-            oldenborgDinner = this.parseMeal(7,3);
+            if (mealTime.day == cal.SUNDAY || mealTime.day == cal.SATURDAY) {
+                // weekend: load brunch & dinner
+                hochDinner = this.parseMeal(1, 3);
+                malottDinner = this.parseMeal(2, 3);
+                mcconnellDinner = this.parseMeal(4, 3);
+                collinsDinner = this.parseMeal(3, 3);
+                frankDinner = this.parseMeal(5, 3);
+                fraryDinner = this.parseMeal(6, 3);
+                oldenborgDinner = this.parseMeal(7, 3);
 
-            hochBrunch = this.parseMeal(1,3);
-            malottBrunch = this.parseMeal(2,3);
-            mcconnellBrunch = this.parseMeal(4,3);
-            collinsBrunch = this.parseMeal(3,3);
-            frankBrunch = this.parseMeal(5,3);
-            fraryBrunch = this.parseMeal(6,3);
-            oldenborgBrunch = this.parseMeal(7,3);
-        } else {
-            System.out.println("checking if breakfasts are loading");
-            hochBreakfast = this.parseMeal(1,1);
-            malottBreakfast = this.parseMeal(2,1);
-            mcconnellBreakfast = this.parseMeal(4,1);
-            collinsBreakfast = this.parseMeal(3,1);
-            frankBreakfast = this.parseMeal(5,1);
-            fraryBreakfast = this.parseMeal(6,1);
-            oldenborgBreakfast = this.parseMeal(7,1);
+                hochBrunch = this.parseMeal(1, 4);
+                malottBrunch = this.parseMeal(2, 4);
+                mcconnellBrunch = this.parseMeal(4, 4);
+                collinsBrunch = this.parseMeal(3, 4);
+                frankBrunch = this.parseMeal(5, 4);
+                fraryBrunch = this.parseMeal(6, 4);
+                oldenborgBrunch = this.parseMeal(7, 4);
+                System.out.println("IN WEEKEND");
+                System.out.println("DAY OF THE WEEK:" + dayOfWeek);
+            } else {
+                System.out.println("I AM NOT IN WEEKEND");
+                hochBreakfast = this.parseMeal(1, 1);
+                System.out.println("HOCH BREAKFAST IN DATACOLLECTOR: " + hochBreakfast);
+                malottBreakfast = this.parseMeal(2, 1);
+                mcconnellBreakfast = this.parseMeal(4, 1);
+                collinsBreakfast = this.parseMeal(3, 1);
+                frankBreakfast = this.parseMeal(5, 1);
+                fraryBreakfast = this.parseMeal(6, 1);
+                oldenborgBreakfast = this.parseMeal(7, 1);
 
-            hochLunch = this.parseMeal(1,2);
-            malottLunch = this.parseMeal(2,2);
-            mcconnellLunch = this.parseMeal(4,2);
-            collinsLunch = this.parseMeal(3,2);
-            frankLunch = this.parseMeal(5,2);
-            fraryLunch = this.parseMeal(6,2);
-            oldenborgLunch = this.parseMeal(7,2);
+                hochLunch = this.parseMeal(1, 2);
+                malottLunch = this.parseMeal(2, 2);
+                mcconnellLunch = this.parseMeal(4, 2);
+                collinsLunch = this.parseMeal(3, 2);
+                frankLunch = this.parseMeal(5, 2);
+                fraryLunch = this.parseMeal(6, 2);
+                oldenborgLunch = this.parseMeal(7, 2);
 
-            hochDinner = this.parseMeal(1,3);
-            malottDinner = this.parseMeal(2,3);
-            mcconnellDinner = this.parseMeal(4,3);
-            collinsDinner = this.parseMeal(3,3);
-            frankDinner = this.parseMeal(5,3);
-            fraryDinner = this.parseMeal(6,3);
-            oldenborgDinner = this.parseMeal(7,3);
+                hochDinner = this.parseMeal(1, 3);
+                malottDinner = this.parseMeal(2, 3);
+                mcconnellDinner = this.parseMeal(4, 3);
+                collinsDinner = this.parseMeal(3, 3);
+                frankDinner = this.parseMeal(5, 3);
+                fraryDinner = this.parseMeal(6, 3);
+                oldenborgDinner = this.parseMeal(7, 3);
+
+            }
+
+        } catch(NullPointerException e) {
+            System.out.println("NULL POINTER EXCEPTION IN DATACOLLECTOR!!!");
+            e.printStackTrace();
 
         }
-        this.setDataLoad();
-    }
 
+
+        this.setDataLoad();
+        //System.out.println("hochBrunch: " + hochBrunch);
+    }
 }

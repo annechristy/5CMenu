@@ -47,7 +47,12 @@ public class MealTime {
 
     }*/
 
+    public MealTime() {
+        setTime();
+    }
+
     public MealTime(int hallNumber) {
+
         hallNum = hallNumber;
         setTime();
     }

@@ -88,7 +88,9 @@ public class MenuPage extends Activity {
 
         // Make Mealtime object
         mealTime = new MealTime(hallDataNum);
+        //System.out.println("Meal Time: " + mealTime);
         mealNum = mealTime.getMealTypeNum();
+        //System.out.println("Meal Type: " + mealNum);
 
         // Make the DiningHall object.
         //selectedHall = new DiningHall(hallDataStr);
@@ -98,7 +100,7 @@ public class MenuPage extends Activity {
 
         // Set the food in the ListView (the setMenuItemsArray() method should use the
         // current meal to decide what to load.
-        setMenuItemsArray();
+        //setMenuItemsArray();
 
         // Get the TextViews. Use these to dynamically change text views.
         DiningHallTextView = (TextView) findViewById(R.id.hall_textview);
@@ -117,17 +119,26 @@ public class MenuPage extends Activity {
 
         System.out.println("Hall data num = " + hallDataNum + "     Meal num = " + mealNum);
 
-        String[] menuArr = this.setMenuItemsArray();
-        System.out.println("MENU_ARR : " + menuArr);
-        if(menuArr == null) {
-            menuArr = new String[1];
-            menuArr[0] = "The menuItemsArray is null.";
-        }
-        System.out.println("menu arr after added stuff: " + menuArr);
-
-
         // Initialize the adapter. Put menuItemsArray into the ListView.
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuArr);
+
+        String[] testSetMenuItemsArr = this.setMenuItemsArray();
+
+        // Create a tiny array to put in the ArrayAdapter in the case of a null pointer exception.
+        String[] tinyArr = new String[2];
+        tinyArr[0] = "hello";
+        tinyArr[1] = "world";
+
+        try {
+            // If the data is unavailable, input our own message to the user.
+            testSetMenuItemsArr = inputEmptyDataMessage(testSetMenuItemsArr);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, testSetMenuItemsArr);
+
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tinyArr);
+        }
+
+
         MealListView.setAdapter(adapter);
 
 
@@ -141,87 +152,121 @@ public class MenuPage extends Activity {
      */
     public String[] setMenuItemsArray() {
         // get the correct data from the data collector
-        switch(hallDataNum) {
-            case 1: // hoch
-                switch(mealNum) {
-                    case 1:
-                        System.out.println("returning DataCollector.hochBreakfast    --> " + DataCollector.hochBreakfast);
-                        return DataCollector.hochBreakfast;
-                    case 2:
-                        return DataCollector.hochLunch;
-                    case 3:
-                        return DataCollector.hochDinner;
-                    case 4:
-                        return DataCollector.hochBrunch;
-                }
-            case 2: // malott
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.malottBreakfast;
-                    case 2:
-                        return DataCollector.malottLunch;
-                    case 3:
-                        return DataCollector.malottDinner;
-                    case 4:
-                        return DataCollector.malottBrunch;
-                }
-            case 3: // collins
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.collinsBreakfast;
-                    case 2:
-                        return DataCollector.collinsLunch;
-                    case 3:
-                        return DataCollector.collinsDinner;
-                    case 4:
-                        return DataCollector.collinsBrunch;
-                }
-            case 4: // mcconnell
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.mcconnellBreakfast;
-                    case 2:
-                        return DataCollector.mcconnellLunch;
-                    case 3:
-                        return DataCollector.mcconnellDinner;
-                    case 4:
-                        return DataCollector.mcconnellBrunch;
-                }
-            case 5: // frank
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.frankBreakfast;
-                    case 2:
-                        return DataCollector.frankLunch;
-                    case 3:
-                        return DataCollector.frankDinner;
-                    case 4:
-                        return DataCollector.frankBrunch;
-                }
-            case 6: // frary
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.fraryBreakfast;
-                    case 2:
-                        return DataCollector.fraryLunch;
-                    case 3:
-                        return DataCollector.fraryDinner;
-                    case 4:
-                        return DataCollector.fraryBrunch;
-                }
-            case 7: // oldenborg
-                switch(mealNum) {
-                    case 1:
-                        return DataCollector.oldenborgBreakfast;
-                    case 2:
-                        return DataCollector.oldenborgLunch;
-                    case 3:
-                        return DataCollector.oldenborgDinner;
-                    case 4:
-                        return DataCollector.oldenborgBrunch;
-                }
+
+        try {
+            switch(hallDataNum) {
+                case 1: // hoch
+                        switch (mealNum) {
+                            case 1:
+                                System.out.println("I AM IN HOCH BREAKFAST!!!");
+                                System.out.println("THIS IS HOCH BREAKFAST: " + DataCollector.hochBreakfast);
+                                return DataCollector.hochBreakfast;
+                            case 2:
+                                return DataCollector.hochLunch;
+                            case 3:
+                                return DataCollector.hochDinner;
+                            case 4:
+                                return DataCollector.hochBrunch;
+                            }
+                        case 2: // malott
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.malottBreakfast;
+                                case 2:
+                                    return DataCollector.malottLunch;
+                                case 3:
+                                    return DataCollector.malottDinner;
+                                case 4:
+                                    return DataCollector.malottBrunch;
+                            }
+                        case 3: // collins
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.collinsBreakfast;
+                                case 2:
+                                    return DataCollector.collinsLunch;
+                                case 3:
+                                    return DataCollector.collinsDinner;
+                                case 4:
+                                    return DataCollector.collinsBrunch;
+                            }
+                        case 4: // mcconnell
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.mcconnellBreakfast;
+                                case 2:
+                                    return DataCollector.mcconnellLunch;
+                                case 3:
+                                    return DataCollector.mcconnellDinner;
+                                case 4:
+                                    return DataCollector.mcconnellBrunch;
+                            }
+                        case 5: // frank
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.frankBreakfast;
+                                case 2:
+                                    return DataCollector.frankLunch;
+                                case 3:
+                                    return DataCollector.frankDinner;
+                                case 4:
+                                    return DataCollector.frankBrunch;
+                            }
+                        case 6: // frary
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.fraryBreakfast;
+                                case 2:
+                                    return DataCollector.fraryLunch;
+                                case 3:
+                                    return DataCollector.fraryDinner;
+                                case 4:
+                                    return DataCollector.fraryBrunch;
+                            }
+                        case 7: // oldenborg
+                            switch(mealNum) {
+                                case 1:
+                                    return DataCollector.oldenborgBreakfast;
+                                case 2:
+                                    return DataCollector.oldenborgLunch;
+                                case 3:
+                                    return DataCollector.oldenborgDinner;
+                                case 4:
+                                    return DataCollector.oldenborgBrunch;
+                            }
+                    }
+
+            } catch (NullPointerException e) {
+            System.out.println("STACK TRACE THINGY");
+            if (e == null) {
+                String[] retArr = new String [1];
+                retArr[0] = "NULLPTREXCEPTION";
+                return retArr;
+                //return DataCollector.hochBreakfast;
+            }
         }
         return null;
+    }
+
+
+    /*
+     * Fill the Menu Array with all of the food options on the Menu.
+     * This is what will appear in the scrolling list view on the menu page.
+     */
+    public String[] inputEmptyDataMessage(String[] inputArray) {
+        int arrayLength = inputArray.length;
+
+        if (arrayLength == 1) {
+            if (inputArray[0] == "Closed." || inputArray[0] == "Closed") {
+                inputArray[0] = "Closed for this meal.";
+            } else {
+                // If a 1-word input array doesn't say "Closed", it will say something like
+                // "No Menu" or "Error." We want to standardize this message.
+                inputArray[0] = "Menu data unavailable.";
+            }
+        }
+        // If the array's length is > 1, don't change it.
+        return inputArray;
     }
 
 
