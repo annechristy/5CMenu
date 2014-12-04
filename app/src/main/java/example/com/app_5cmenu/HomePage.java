@@ -73,8 +73,6 @@ public class HomePage extends Activity implements View.OnClickListener {
         if(!dataCollector.hasTodaysData()) {
             new FetchWebsiteData().execute();
         }
-
-
     }
 
 
@@ -153,12 +151,6 @@ public class HomePage extends Activity implements View.OnClickListener {
                 break;
 
         }
-
-        /*
-        mainTextView.setText("Button pressed!");
-        goToMenu_Intent = new Intent(this, MenuPage.class);
-        startActivity(goToMenu_Intent);
-        */
     }
 
     public class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
@@ -177,26 +169,13 @@ public class HomePage extends Activity implements View.OnClickListener {
         protected Void doInBackground(Void... params) {
             try {
                 // Connect to website
-                //Document document = Jsoup.connect(URL).get();
                 Document document = Jsoup.connect(URL).get();
 
                 dataCollector.setDoc(document);
                 dataCollector.load();
                 System.out.println("HOMEPAGE IS CALLING DATACOLLECTOR");
                 System.out.println("DATACOLLECTOR.HOCHBREAKFAST: " + DataCollector.hochBreakfast);
-
-                //String[] hochBreakfast = DataCollector.parseMeal(1, 3);
-
-
-                // Get the html document title
-                //websiteTitle = document.title();
-                //System.out.println("DOCUMENT TITLE: " + websiteTitle);
-                //Elements description = document.select("meta[name=description]");
-                // Locate the content attribute
-                //websiteDescription = description.attr("content");
-
             } catch (IOException e) {
-                //System.out.println("STACK TRACE THINGY");
                 e.printStackTrace();
             }
             return null;
@@ -204,10 +183,6 @@ public class HomePage extends Activity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(Void result) {
-            // Set title into TextView
-            //TextView txttitle = (TextView) findViewById(R.id.txtData);
-            // txttitle.setText(websiteTitle + "\n" + websiteDescription);
-            //System.out.println("I did that thing you wanted me to do!!!");
             mProgressDialog.dismiss();
         }
     }

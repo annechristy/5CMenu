@@ -22,30 +22,6 @@ public class MealTime {
     int hour;
     int min;
 
-    /*
-     * This constructor creates a mealtime that represents the current meal
-     * at the specified dining hall.
-     */
-    /*
-    public MealTime(String diningHallName) {
-        diningHall = diningHallName;
-        //setHallNum();
-        setTime();
-
-        mealType = currentMealType();
-        if (mealType.equals("Breakfast")) {
-            mealtime = breakfastTime();
-        } else if (mealType.equals("Lunch")) {
-            mealtime = lunchTime();
-        } else if (mealType.equals("Dinner")) {
-            mealtime = dinnerTime();
-        } else if (mealType.equals("Brunch")) {
-            mealtime = brunchTime();
-        } else {
-            mealtime = "ERROR";
-        }
-
-    }*/
 
     public MealTime() {
         setTime();
@@ -264,31 +240,6 @@ public class MealTime {
      * Oldenborg        7
      */
     /*
-    private void setHallNum() {
-        if (diningHall.equals("Hoch-Shanahan")) {
-            hallNum = 1;
-        }
-        else if (diningHall.equals("Malott Commons")) {
-            hallNum = 2;
-        }
-        else if (diningHall.equals("Collins")) {
-            hallNum = 3;
-        }
-        else if (diningHall.equals("McConnell")) {
-            hallNum = 4;
-        }
-        else if (diningHall.equals("Frank")) {
-            hallNum = 5;
-        }
-        else if (diningHall.equals("Frary")) {
-            hallNum = 6;
-        }
-        else if (diningHall.equals("Oldenborg")) {
-            hallNum = 7;
-        } else {
-            hallNum = -1; // Not a dining hall error code...
-        }
-    }
 */
 
     /*
@@ -342,7 +293,6 @@ public class MealTime {
                 return "11:00 - 2:00";
             case 7:  // oldenborg
                 return "12:00 - 1:00";
-
         }
         return null;
     }

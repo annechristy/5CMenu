@@ -48,8 +48,6 @@ public class DataCollector {
     int lastLoadMonth;
     int lastLoadDayOfMonth;
 
-    public static String[] testHochDinnerArr;
-
     public static String[] hochBreakfast;
     public static String[] hochLunch;
     public static String[] hochDinner;
@@ -95,7 +93,6 @@ public class DataCollector {
 
 
     // Creates the Singleton Class
-
     public static DataCollector getInstance() {
         if (instance == null) {
             instance = new DataCollector();
@@ -252,6 +249,5 @@ public class DataCollector {
 
 
         this.setDataLoad();
-        //System.out.println("hochBrunch: " + hochBrunch);
     }
 }
