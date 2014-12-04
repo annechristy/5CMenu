@@ -9,29 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-
-//import java.text.SimpleDateFormat;
-//import java.util.Calendar;
-//import java.util.Date;
-//import java.util.GregorianCalendar;
-//import java.util.Locale;
-//import java.util.TimeZone;
-
 
 public class MenuPage extends Activity {
 
    // Current hall and meal objects.
-   // DiningHall selectedHall;
-    //Meal currentMeal;
     MealTime mealTime;
 
     int mealNum = -1;
@@ -48,9 +29,6 @@ public class MenuPage extends Activity {
     // Data from the home page button click.
     String hallDataStr;
     int hallDataNum;
-
-   // Figure out how to change this more dynamically!!! maybe with a vector?
-    String[] menuItemsArray;
 
 
     // Dining Hall Numbers (hallDataNum):
@@ -74,33 +52,13 @@ public class MenuPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_page);
 
-        //System.out.println("Franky stuff" + DataCollector.frankBreakfast);
-        //System.out.println(DataCollector.frankBrunch);
-        //System.out.println(DataCollector.frankLunch);
-        //System.out.println(DataCollector.frankDinner);
-
-
         // Get information from the home page.
         hallDataStr = getIntent().getStringExtra("hall_data");
         hallDataNum = getIntent().getIntExtra("hall_data_num", 0);
 
-       // System.out.println("hallDataNum: " + hallDataNum);
-
         // Make Mealtime object
         mealTime = new MealTime(hallDataNum);
-        //System.out.println("Meal Time: " + mealTime);
         mealNum = mealTime.getMealTypeNum();
-        //System.out.println("Meal Type: " + mealNum);
-
-        // Make the DiningHall object.
-        //selectedHall = new DiningHall(hallDataStr);
-
-        // Make the current Meal object.
-        //currentMeal = new Meal(hallDataStr);
-
-        // Set the food in the ListView (the setMenuItemsArray() method should use the
-        // current meal to decide what to load.
-        //setMenuItemsArray();
 
         // Get the TextViews. Use these to dynamically change text views.
         DiningHallTextView = (TextView) findViewById(R.id.hall_textview);
@@ -115,18 +73,16 @@ public class MenuPage extends Activity {
         MealTimeTextView.setText(mealTime.currentMealTime());
 
         // Get the ListView.
-        MealListView= (ListView) findViewById(R.id.meal_items_listview);
-
-        System.out.println("Hall data num = " + hallDataNum + "     Meal num = " + mealNum);
+        MealListView = (ListView) findViewById(R.id.meal_items_listview);
 
         // Initialize the adapter. Put menuItemsArray into the ListView.
 
         String[] testSetMenuItemsArr = this.setMenuItemsArray();
 
-        // Create a tiny array to put in the ArrayAdapter in the case of a null pointer exception.
-        String[] tinyArr = new String[2];
-        tinyArr[0] = "hello";
-        tinyArr[1] = "world";
+        // Create a tiny array to put in the ArrayAdapter in the case of a null pointer exception
+        // that occurs when a user's device is not connected to the internet.
+        String[] tinyArr = new String[1];
+        tinyArr[0] = "Data unavailable. Please check your internet connection and try again.";
 
         try {
             // If the data is unavailable, input our own message to the user.
@@ -237,12 +193,10 @@ public class MenuPage extends Activity {
                     }
 
             } catch (NullPointerException e) {
-            System.out.println("STACK TRACE THINGY");
-            if (e == null) {
-                String[] retArr = new String [1];
-                retArr[0] = "NULLPTREXCEPTION";
-                return retArr;
-                //return DataCollector.hochBreakfast;
+                if (e == null) {
+                    String[] retArr = new String [1];
+                    retArr[0] = "NULLPTREXCEPTION";
+                    return retArr;
             }
         }
         return null;
