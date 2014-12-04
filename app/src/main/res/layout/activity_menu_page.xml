@@ -2,11 +2,12 @@
 <!-- My own code from before the subheader test... -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bgcolor"
+    >
+
 
     <TextView
         android:id="@+id/hall_textview"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/hochTitleSize"
+        android:textColor="@color/textgray"
         android:text="Dining Hall Name"/> <!-- Set in MenuPage.java -->
 
         <LinearLayout
@@ -62,14 +64,15 @@
 
 
     <!-- List whose dataset is defined in code with an adapter -->
+
     <ListView
 
         android:id="@+id/meal_items_listview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="5dp"
         android:layout_weight="1"
-        android:layout_marginTop="5dp"
-        android:background="@color/textgray"
+        android:layout_marginTop="0dp"
+        android:background="@color/bgcolor"
         />
 
 
