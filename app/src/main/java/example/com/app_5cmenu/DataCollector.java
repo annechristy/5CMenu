@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -44,6 +45,11 @@ public class DataCollector {
     int dayOfMonth = Calendar.DAY_OF_MONTH;
     int dayOfWeek = Calendar.DAY_OF_WEEK;
     int year = Calendar.YEAR;
+
+
+    String nowTime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+
+
 
     int lastLoadMonth;
     int lastLoadDayOfMonth;
@@ -105,13 +111,13 @@ public class DataCollector {
     public void setDoc(Document document) {
         doc = document;
         aspc = new ASPCScraper(doc);
+        System.out.println("nowTime: " + nowTime);
+        System.out.println("Day: " + cal.DAY_OF_WEEK);
+
     }
 
     public boolean hasTodaysData() {
-        if(lastLoadMonth == month && lastLoadDayOfMonth == dayOfMonth) {
-            return true;
-        }
-        return false;
+        return lastLoadMonth == month && lastLoadDayOfMonth == dayOfMonth;
     }
 
     // sets date values on a load so we know if we have already scraped the website that day.
@@ -139,7 +145,6 @@ public class DataCollector {
             case 6: aspc_hallid = "frary_menu";
                 break;
             case 7: aspc_hallid = "oldenborg_menu";
-                System.out.println("oldenborg_menu");
                 break;
         }
 
@@ -149,7 +154,6 @@ public class DataCollector {
             case 2: mealStr = "Lunch";
                 break;
             case 3: mealStr = "Dinner";
-                System.out.println("Dinner");
                 break;
             case 4: mealStr = "Brunch";
                 break;
@@ -159,11 +163,12 @@ public class DataCollector {
         Elements hochMenu = menutable.select("tr#" + aspc_hallid);
         Elements ul = hochMenu.select("td:contains(" + mealStr + ") > ul");
         Elements li = ul.select("li");
-        System.out.println("THE MENU ITEMS:");
+        //System.out.println("THE MENU ITEMS:");
 
         // Scan once for the number of items.
         int numitems = 0;
         for (Element e : li) {
+            System.out.println("item: " + e.text());
             numitems++;
         }
 
@@ -180,7 +185,6 @@ public class DataCollector {
     }
 
 
-
         // load the data from the webscrapers into the ArrayLists
 
     public void load() {
@@ -189,7 +193,6 @@ public class DataCollector {
         String title = doc.title();
         System.out.println("This is the website title; " + title);
 
-        System.out.println("MEALTIME.DAY IS: " + mealTime.day);
 
         try {
 

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bgcolor"
     android:weightSum="1.0">
 
 
@@ -15,6 +16,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:textSize="33sp"
+        android:textColor="@color/textgray"
         android:text="@string/textview"/>
 
 
@@ -102,6 +104,7 @@
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:textSize="10sp"
+        android:textColor="@color/textgray"
         android:text="\u00A9 2014 Anne Christy and Hannah Turk"/>
 
 

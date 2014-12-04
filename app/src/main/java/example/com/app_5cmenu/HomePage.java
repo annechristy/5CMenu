@@ -47,7 +47,7 @@ public class HomePage extends Activity implements View.OnClickListener {
         // 1. Access the TextView defined in layout XML
         // and then set its text
         mainTextView = (TextView) findViewById(R.id.main_textview);
-        mainTextView.setText("Welcome to the 5C Menu App!");
+        //mainTextView.setText("Welcome to the 5C Menu App!");
 
         // 2. Access the Button(s) defined in layout XML
         // and listen for it here
@@ -88,11 +88,12 @@ public class HomePage extends Activity implements View.OnClickListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       /* int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);*/
+        return false;
     }
 
     @Override
